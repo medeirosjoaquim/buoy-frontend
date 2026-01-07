@@ -1,15 +1,23 @@
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { useGetBrandId } from "hooks";
 
+type MutationFn<T, K> = (brandId: string, input: K) => Promise<T | undefined | void>;
+type OnSuccessFn<T, K> = (
+  brandId: string,
+  data: T | undefined | void,
+  variables: K,
+  context: unknown
+) => void;
+
 export function useBrandIdSubscribedMutation<T, K>(
-  mutationFn: (...params: any[]) => Promise<T | undefined | void>,
-  onSuccess: (...params: any[]) => void
+  mutationFn: MutationFn<T, K>,
+  onSuccess: OnSuccessFn<T, K>
 ): UseMutationResult<T | undefined | void, unknown, K> {
   const brandId = useGetBrandId();
 
   const mutation = useMutation({
-    mutationFn: (...params: any[]) => mutationFn(brandId, ...params),
-    onSuccess: (...params: any[]) => onSuccess(brandId, ...params),
+    mutationFn: (input: K) => mutationFn(brandId, input),
+    onSuccess: (data, variables, context) => onSuccess(brandId, data, variables, context),
   });
 
   return mutation;
