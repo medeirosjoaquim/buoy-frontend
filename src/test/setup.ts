@@ -2,9 +2,11 @@ import "@testing-library/jest-dom";
 import { cleanup, configure } from "@testing-library/react";
 import { afterEach } from "vitest";
 
-// Suppress warnings from Ant Design internal components immediately
+// Suppress warnings from Ant Design internal components and test utilities
 // This must run before any test code executes
 const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
 console.error = (...args: unknown[]) => {
   const message = typeof args[0] === "string" ? args[0] : "";
   // Suppress act() warnings from Ant Design internal timers/effects
@@ -15,7 +17,20 @@ console.error = (...args: unknown[]) => {
   if (message.includes("Not implemented: window.computedStyle")) {
     return;
   }
+  // Suppress ReactDOMTestUtils.act deprecation warning
+  if (message.includes("ReactDOMTestUtils.act")) {
+    return;
+  }
   originalConsoleError.apply(console, args);
+};
+
+console.warn = (...args: unknown[]) => {
+  const message = typeof args[0] === "string" ? args[0] : "";
+  // Suppress React Router future flag warnings in tests
+  if (message.includes("React Router Future Flag Warning")) {
+    return;
+  }
+  originalConsoleWarn.apply(console, args);
 };
 
 // Configure React Testing Library for React 18

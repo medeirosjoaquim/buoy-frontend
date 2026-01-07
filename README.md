@@ -133,7 +133,7 @@ Reference:
 
 > **Extra Notes**
 >
-> Change the build to use vite instead of create react app. App was taking ~16s to build, with vite we lowered it to ~5.4s.
+> Change the build to use vite instead of create react app. App was taking ~16s to build, with vite we lowered it to ~5.16s.
 >
 > Added React Query persistent caching using localforage. Query results are now stored in IndexedDB, so returning users see cached data instantly while fresh data loads in the background. Makes the app feel snappier, especially on slower connections.
 >

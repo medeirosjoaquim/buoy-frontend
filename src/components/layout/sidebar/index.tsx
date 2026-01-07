@@ -5,7 +5,7 @@ import { useAppNavigate } from "hooks";
 import { header_logo, header_logo_collapsed } from "assets";
 import { AppLayoutContext } from "..";
 import { useContext } from "react";
-import { MenuItemType } from "antd/es/menu/hooks/useItems";
+import type { MenuItemType } from "antd/es/menu/interface";
 
 const { Sider } = Layout;
 

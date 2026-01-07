@@ -32,7 +32,7 @@ export function LocationBreadcrumbs({
     .filter((i) => i && i !== "" && i !== " ");
 
   const sidebarBreadcrumbNameMap = sidebarItems.reduce<Record<string, string>>(
-    (prev, curr) => ({ ...prev, [curr.key || ""]: curr.title || "" }),
+    (prev, curr) => ({ ...prev, [String(curr.key ?? "")]: String(curr.title ?? "") }),
     {}
   );
 
