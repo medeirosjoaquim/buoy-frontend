@@ -8,7 +8,7 @@ import { store } from "store";
 import { AuthenticationProvider } from "components/providers/authenticationProvider";
 import { EnvironmentConfigProvider } from "components/providers/environmentConfigProvider";
 import { QueryClientProvider } from "components/providers/queryClientProvider";
-import "app.css";
+import "./app.css";
 
 function App() {
   return (

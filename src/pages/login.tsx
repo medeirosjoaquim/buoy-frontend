@@ -15,7 +15,7 @@ const LoginScreen: React.FC = () => {
   const { formatMessage } = useIntl();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null || "");
+  const [error, setError] = useState("");
 
   const {
     token: { colorPrimary, colorWhite, padding },
