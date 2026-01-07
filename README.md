@@ -131,7 +131,17 @@ Reference:
 
 ---
 
+> **Extra Notes**
+>
 > Change the build to use vite instead of create react app. App was taking ~16s to build, with vite we lowered it to ~6s.
+>
+> Added React Query persistent caching using localforage. Query results are now stored in IndexedDB, so returning users see cached data instantly while fresh data loads in the background. Makes the app feel snappier, especially on slower connections.
+>
+> Set up a proper testing environment with Vitest and React Testing Library. Wrote integration tests for both problems: 4 tests verify the duplicate refresh fix works correctly, and 8 tests cover all the Users page acceptance criteria (pagination, sorting, filtering).
+>
+> Cleaned up some runtime warnings along the way: fixed a deprecated Ant Design Timeline API, handled React Query's undefined data edge case, and added a proper route redirect for the root path.
+>
+> Refactored the useCRUDBuilder hook to use proper TypeScript generics instead of `any` types. The hook is now fully type-safe and supports typed query parameters for list operations.
 
 ---
 
