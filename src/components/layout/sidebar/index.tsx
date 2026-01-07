@@ -1,4 +1,4 @@
-import { DashboardOutlined, UserOutlined } from "@ant-design/icons";
+import { DashboardOutlined, UserOutlined, TeamOutlined } from "@ant-design/icons";
 import { Layout, Menu, Avatar, theme, Row, Col, Image } from "antd";
 import { AppPath } from "components";
 import { useAppNavigate } from "hooks";
@@ -27,6 +27,11 @@ export function AppSidebar({ collapsed, setCollapsed }: AppSidebarProps) {
       key: AppPath.home,
       label: "Dashboard",
       icon: <DashboardOutlined />,
+    },
+    {
+      key: AppPath.users,
+      label: "Users",
+      icon: <TeamOutlined />,
     },
   ];
 
