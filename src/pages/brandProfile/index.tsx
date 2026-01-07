@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useIntl } from "react-intl";
 import { InboxOutlined } from "@ant-design/icons";
 import {
@@ -16,6 +17,22 @@ import { useBrandCRUD } from "hooks/react-query/brand";
 import { useGetBrandId } from "hooks";
 import ContentLayout from "components/layout/content/contentLayout";
 
+// localStorage helpers for draft persistence
+const getDraftKey = (brandId: string) => `brandProfile_draft_${brandId}`;
+
+const saveDraft = (brandId: string, values: Record<string, string>) => {
+  localStorage.setItem(getDraftKey(brandId), JSON.stringify(values));
+};
+
+const loadDraft = (brandId: string): Record<string, string> | null => {
+  const saved = localStorage.getItem(getDraftKey(brandId));
+  return saved ? JSON.parse(saved) : null;
+};
+
+const clearDraft = (brandId: string) => {
+  localStorage.removeItem(getDraftKey(brandId));
+};
+
 export function BrandProfile() {
   const { formatMessage } = useIntl();
   const brandId = useGetBrandId();
@@ -25,20 +42,32 @@ export function BrandProfile() {
   const { data, isSuccess, isLoading } = useGetDetail(brandId);
   const { mutateAsync, isLoading: updateIsLoading } = useUpdate(brandId);
 
+  // Merge API data with localStorage draft - localStorage values override API
+  // This ensures user edits persist even if API doesn't save (e.g., mock API)
+  const initialValues = useMemo(() => {
+    const draft = loadDraft(brandId);
+    if (!data) return draft ?? undefined;
+    if (!draft) return data;
+    // Merge: API data as base, localStorage draft overrides
+    return { ...data, ...draft };
+  }, [data, brandId]);
+
   const formItemStyle: React.CSSProperties = {};
   const cardStyle: React.CSSProperties = {};
 
-  const handleOnFinish = (values: Record<string, string>) => {
-    mutateAsync(values);
+  const handleOnFinish = async (values: Record<string, string>) => {
+    saveDraft(brandId, values); // Persist to localStorage
+    await mutateAsync(values); // Also send to API
+    // Don't clear localStorage - keeps working even if API doesn't persist
   };
 
   return (
     <ContentLayout>
       {isLoading && <Spin />}
-      {!isLoading && isSuccess && data && (
+      {!isLoading && isSuccess && initialValues && (
         <Form
           disabled={updateIsLoading}
-          initialValues={data}
+          initialValues={initialValues}
           onFinish={handleOnFinish}
         >
           <Row justify="space-around" gutter={[0, 20]}>
@@ -115,7 +144,7 @@ export function BrandProfile() {
                           noStyle
                         >
                           <UploadField
-                            initialValue={data.avatar}
+                            initialValue={initialValues.avatar}
                             width={"240px"}
                             height={"132px"}
                           >

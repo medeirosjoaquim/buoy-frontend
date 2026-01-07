@@ -49,7 +49,7 @@ Object.defineProperty(window, "matchMedia", {
 });
 
 // Mock window.scrollTo for Ant Design Anchor
-window.scrollTo = vi.fn();
+window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
 
 // Mock window.getComputedStyle for Ant Design Table
 const originalGetComputedStyle = window.getComputedStyle;
