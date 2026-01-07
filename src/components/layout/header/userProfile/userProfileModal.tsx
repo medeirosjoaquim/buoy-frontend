@@ -5,6 +5,7 @@ import { useAppDispatch, useAppNavigate } from "hooks";
 import LoginService from "services/login";
 import { updateAuth } from "store/auth";
 import { UserProfileData } from "services/userProfile/interface";
+import { queryClient, CACHE_KEY } from "components/providers/queryClientProvider";
 
 interface UserProfileModalProps {
   open: boolean;
@@ -22,7 +23,10 @@ export const UserProfileModal = ({
   const logout = useCallback(() => {
     LoginService.logout();
     dispatch(updateAuth({ accessToken: null, refreshToken: null }));
-  }, []);
+    // Clear React Query cache (both in-memory and persisted)
+    queryClient.clear();
+    localStorage.removeItem(CACHE_KEY);
+  }, [dispatch]);
 
   return (
     <Modal open={open} onCancel={closeModal} footer={null} width={"800px"}>
