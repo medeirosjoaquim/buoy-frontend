@@ -74,11 +74,7 @@ export function BrandProfile() {
             </Col>
             <Col span={24}>
               <Row
-                gutter={[0, 50]}
-                style={{
-                  maxHeight: "60vh",
-                  overflow: "scroll",
-                }}
+                gutter={[0, 24]}
                 justify="space-around"
               >
                 <Col span={14}>
@@ -291,15 +287,16 @@ export function BrandProfile() {
                     </Form.Item>
                   </Card>
                 </Col>
-                <Col span={14}></Col>
+                <Col span={14} style={{ paddingBottom: 24 }}>
+                  <Row justify="center">
+                    <Button htmlType="submit" type="primary" size="large">
+                      {formatMessage({
+                        id: "page.brandProfile.form.btn",
+                      })}
+                    </Button>
+                  </Row>
+                </Col>
               </Row>
-            </Col>
-            <Col>
-              <Button htmlType="submit" type="primary" size="large">
-                {formatMessage({
-                  id: "page.brandProfile.form.btn",
-                })}
-              </Button>
             </Col>
           </Row>
         </Form>
