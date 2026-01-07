@@ -7,39 +7,35 @@ import {
 } from "@tanstack/react-query";
 import { useBrandIdSubscribedMutation } from "./useBrandIdSubscribedMutation";
 
-export interface useCRUDBuilderProps<T> {
+export interface useCRUDBuilderProps<T, ListQueryParams extends unknown[] = []> {
   cacheQueryName: string;
   paramlessDetail?: boolean;
-  readListPromise?:
-    | undefined
-    | ((
-        brandId: string,
-        ...rest: any[]
-      ) => Promise<PaginatedResult<T> | undefined>);
-  readDetailPromise?:
-    | undefined
-    | ((
-        brandId: string,
-        elementId?: ElementIdType,
-        ...rest: any[]
-      ) => Promise<T | undefined>);
-  createPromise?:
-    | undefined
-    | ((brandId: string, ...rest: any[]) => Promise<T | undefined | void>);
-  updatePromise?:
-    | undefined
-    | ((brandId: string, ...rest: any[]) => Promise<T | undefined | void>);
-  deletePromise?:
-    | undefined
-    | ((brandId: string, ...rest: any[]) => Promise<T | undefined | void>);
+  readListPromise?: (
+    brandId: string,
+    ...rest: ListQueryParams
+  ) => Promise<PaginatedResult<T> | undefined>;
+  readDetailPromise?: (
+    brandId: string,
+    elementId?: ElementIdType
+  ) => Promise<T | undefined>;
+  createPromise?: (
+    brandId: string,
+    body: Partial<T>
+  ) => Promise<T | undefined | void>;
+  updatePromise?: (
+    brandId: string,
+    elementId: ElementIdType,
+    body: Partial<T>
+  ) => Promise<T | undefined | void>;
+  deletePromise?: (
+    brandId: string,
+    elementId: ElementIdType
+  ) => Promise<T | undefined | void>;
 }
 
-export interface useCRUDBuilderResponse<T> {
-  useGetList: (query?: any[]) => UseQueryResult<PaginatedResult<T> | null | undefined>;
-  useGetDetail: (
-    elementId?: ElementIdType,
-    query?: any[]
-  ) => UseQueryResult<T | null | undefined>;
+export interface useCRUDBuilderResponse<T, ListQueryParams extends unknown[] = []> {
+  useGetList: (query?: ListQueryParams) => UseQueryResult<PaginatedResult<T> | null | undefined>;
+  useGetDetail: (elementId?: ElementIdType) => UseQueryResult<T | null | undefined>;
   useCreate: () => UseMutationResult<T | undefined | void, unknown, Partial<T>>;
   useUpdate: (
     elementId: ElementIdType
@@ -49,7 +45,7 @@ export interface useCRUDBuilderResponse<T> {
   ) => UseMutationResult<T | undefined | void, unknown, void>;
 }
 
-export function useCRUDBuilder<T>({
+export function useCRUDBuilder<T, ListQueryParams extends unknown[] = []>({
   cacheQueryName,
   paramlessDetail = false,
   readListPromise,
@@ -57,7 +53,7 @@ export function useCRUDBuilder<T>({
   createPromise,
   updatePromise,
   deletePromise,
-}: useCRUDBuilderProps<T>): useCRUDBuilderResponse<T> {
+}: useCRUDBuilderProps<T, ListQueryParams>): useCRUDBuilderResponse<T, ListQueryParams> {
   const listQueryName = `${cacheQueryName}-list`;
   const detailQueryName = `${cacheQueryName}`;
 
@@ -69,7 +65,7 @@ export function useCRUDBuilder<T>({
   ];
 
   return {
-    useGetList: (query: any[] = []) => {
+    useGetList: (query: ListQueryParams = [] as unknown as ListQueryParams) => {
       return useBrandIdSubscribedQuery<PaginatedResult<T> | undefined>(
         async (brandId) =>
           readListPromise && readListPromise(brandId, ...query),
@@ -130,9 +126,9 @@ export function useCRUDBuilder<T>({
       const queryClient = useQueryClient();
 
       return useBrandIdSubscribedMutation<T, void>(
-        async (brandId: string, body: Partial<T>) => {
+        async (brandId: string) => {
           if (!elementId) return;
-          return deletePromise && deletePromise(brandId, elementId, body);
+          return deletePromise && deletePromise(brandId, elementId);
         },
         (brandId) => {
           queryClient.invalidateQueries({

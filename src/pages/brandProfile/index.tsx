@@ -22,7 +22,7 @@ export function BrandProfile() {
 
   const { useGetDetail, useUpdate } = useBrandCRUD();
 
-  const { data, isSuccess, isLoading } = useGetDetail(brandId, []);
+  const { data, isSuccess, isLoading } = useGetDetail(brandId);
   const { mutateAsync, isLoading: updateIsLoading } = useUpdate(brandId);
 
   const formItemStyle: React.CSSProperties = {};
