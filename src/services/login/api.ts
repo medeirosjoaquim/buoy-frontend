@@ -1,6 +1,9 @@
 import { LoginService, LoginRequestData, LoginResponseData } from "./interface";
 
 export class LoginApiService extends LoginService {
+  // Promise lock to prevent duplicate refresh calls
+  private refreshPromise: Promise<LoginResponseData> | null = null;
+
   public async login(payload: LoginRequestData): Promise<LoginResponseData> {
     const response: LoginResponseData = await this.fetchPost(
       "/login/",
@@ -30,18 +33,34 @@ export class LoginApiService extends LoginService {
 
     try {
       const parsedToken = this.parseJwt(token?.access);
+      const isExpired = new Date().getTime() / 1000 > parsedToken.exp;
 
-      if (new Date().getTime() / 1000 > parsedToken.exp) {
-        const response: LoginResponseData = await this.fetchPost(
+      if (isExpired) {
+        // If a refresh is already in progress, wait for it instead of triggering another
+        if (this.refreshPromise) {
+          await this.refreshPromise;
+          return this.retrieveFromLocalStorage();
+        }
+
+        // Start refresh and store the promise so concurrent calls can await it
+        this.refreshPromise = this.fetchPost(
           "/refresh/",
           { method: "POST" },
           { refresh: token.refresh }
         );
-        this.storeInLocalStorage(response);
+
+        try {
+          const response = await this.refreshPromise;
+          this.storeInLocalStorage(response);
+        } finally {
+          // Clear the lock so future refreshes can proceed
+          this.refreshPromise = null;
+        }
       }
       return this.retrieveFromLocalStorage();
     } catch (e) {
       console.log(e);
+      this.refreshPromise = null;
       this.logout();
     }
     return null;
