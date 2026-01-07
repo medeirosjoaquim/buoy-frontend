@@ -29,6 +29,26 @@ export default defineConfig({
   },
   build: {
     outDir: "build",
-    sourcemap: true,
+    // Generate sourcemaps only when SOURCEMAP env var is set (for debugging production issues)
+    sourcemap: !!process.env.SOURCEMAP,
+    // Ant Design UI framework is ~1.1MB minified; set limit accordingly
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            // Ant Design (largest dep) - split for better caching
+            if (
+              id.includes("/antd/") ||
+              id.includes("/@ant-design/") ||
+              id.includes("/rc-") ||
+              id.includes("/@rc-component/")
+            ) {
+              return "vendor-antd";
+            }
+          }
+        },
+      },
+    },
   },
 });
