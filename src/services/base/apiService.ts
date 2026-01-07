@@ -1,5 +1,5 @@
 export class ApiService {
-  static apiUrl: string = `${process.env.REACT_APP_API_URL}`;
+  static apiUrl: string = `${import.meta.env.VITE_API_URL}`;
   private apiVersion: string = "v1";
 
   protected buildEndpoint = (endpoint: string) => {

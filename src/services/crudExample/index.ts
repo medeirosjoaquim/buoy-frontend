@@ -4,7 +4,7 @@ import { CrudExampleService } from "./interface";
 
 let service: CrudExampleService = new CrudExampleApiService();
 
-if (process.env.REACT_APP_FAKE_API_MODE === "true") {
+if (import.meta.env.VITE_FAKE_API_MODE === "true") {
   service = new CrudExampleFakeService(1000, 0);
 }
 

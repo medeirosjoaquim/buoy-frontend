@@ -4,7 +4,7 @@ import { LoginService } from "./interface";
 
 let service: LoginService = new LoginApiService();
 
-if (process.env.REACT_APP_FAKE_API_MODE === "true") {
+if (import.meta.env.VITE_FAKE_API_MODE === "true") {
   service = new LoginFakeService(1000, 0);
 }
 
