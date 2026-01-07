@@ -5,16 +5,18 @@ import { useGetBrandId } from "hooks";
 export function useBrandIdSubscribedQuery<T>(
   handler: (brandId: string) => Promise<T | undefined>,
   queryKeyBuilder: (brandId: string) => QueryKey
-): UseQueryResult<T | undefined> {
+): UseQueryResult<T | null | undefined> {
   const brandId = useGetBrandId();
 
   const query = useQuery({
-    queryFn: async (): Promise<T | undefined> => {
-      if (!brandId) return undefined;
+    queryFn: async (): Promise<T | null> => {
+      if (!brandId) return null;
       const response = await handler(brandId);
-      return response;
+      // React Query doesn't allow undefined, return null instead
+      return response ?? null;
     },
     queryKey: queryKeyBuilder(brandId),
+    enabled: !!brandId, // Only run query when brandId is available
   });
 
   useEffect(() => {

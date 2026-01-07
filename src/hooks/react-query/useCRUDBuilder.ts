@@ -35,11 +35,11 @@ export interface useCRUDBuilderProps<T> {
 }
 
 export interface useCRUDBuilderResponse<T> {
-  useGetList: (query?: any[]) => UseQueryResult<PaginatedResult<T> | undefined>;
+  useGetList: (query?: any[]) => UseQueryResult<PaginatedResult<T> | null | undefined>;
   useGetDetail: (
     elementId?: ElementIdType,
     query?: any[]
-  ) => UseQueryResult<T | undefined>;
+  ) => UseQueryResult<T | null | undefined>;
   useCreate: () => UseMutationResult<T | undefined | void, unknown, Partial<T>>;
   useUpdate: (
     elementId: ElementIdType

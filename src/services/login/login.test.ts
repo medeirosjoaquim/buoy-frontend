@@ -58,7 +58,8 @@ describe("LoginApiService", () => {
       let refreshCallCount = 0;
       fetchPostSpy = vi
         .spyOn(service as any, "fetchPost")
-        .mockImplementation(async (url: string) => {
+        .mockImplementation(async (...args: unknown[]) => {
+          const url = args[0] as string;
           if (url === "/refresh/") {
             refreshCallCount++;
             // Simulate network delay

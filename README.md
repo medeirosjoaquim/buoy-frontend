@@ -67,6 +67,10 @@ If you start the project (see #Starting Steps below) and fill the login form (an
 - Refresh the page
 - Only ONE call to /refresh has been made
 
+## Solution: Implement a Promise-based lock pattern that ensures only
+
+The first caller triggers the refresh, while subsequent callers await the same Promise. This guarantees exactly one refresh per token expiration, regardless of how many concurrent requests need a valid token.
+
 ### Is this really an issue?
 
 This is really a question for you, actually:
@@ -75,7 +79,7 @@ In a production environment, with a proper JWT generating API, and a proper JWT 
 
 Provide an answer below:
 
-> DELETE THIS QUOTE AND REPLACE IT WITH YOUR ANSWER
+> Duplicate refresh calls cause a critical issue: the first /refresh request invalidates the old refresh token and issues a new one, so the second parallel request uses an already-invalidated token and fails. This can result in authentication errors, inconsistent client state, or the user being unexpectedly logged out. Additionally, duplicate calls waste server resources and may trigger rate limiting or security alerts for suspicious activity.
 
 ---
 
@@ -127,7 +131,7 @@ Reference:
 
 ---
 
-> EXTRA POINTS: WRITE HERE ANY EXTRA COMMENTS OR NOTES YOU FIND RELEVANT
+> Change the build to use vite instead of create react app. App was taking ~16s to build, with vite we lowered it to ~6s.
 
 ---
 
@@ -137,8 +141,8 @@ Reference:
 
 - npm i
 - create a .env with the following key-value pairs
-  - REACT_APP_API_URL=https://fake-api-owmo.onrender.com/dev
-  - REACT_APP_FAKE_API_MODE=false
+  - VITE_API_URL=https://fake-api-owmo.onrender.com/dev
+  - VITE_FAKE_API_MODE=false
 - npm start
 
 # Data Loading (FAKE API MODE)

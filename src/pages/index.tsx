@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { BrandProfile } from "./brandProfile";
 import { UserProfile } from "./userProfile";
 import { Users } from "./users";
@@ -8,6 +8,7 @@ import Dashboard from "./dashboard";
 export default function PagesRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to={AppPath.home} replace />} />
       <Route path={AppPath.home} element={<Dashboard />} />
       <Route path={AppPath.brandProfile} element={<BrandProfile />} />
       <Route path={AppPath.userProfile} element={<UserProfile />} />

@@ -476,14 +476,16 @@ function Dashboard() {
                   pending="Recording..."
                   className="timelinelist"
                   reverse={reverse}
-                >
-                  {timelineList.map((t, index) => (
-                    <Timeline.Item color={t.color} key={index}>
-                      <Title level={5}>{t.title}</Title>
-                      <Text>{t.time}</Text>
-                    </Timeline.Item>
-                  ))}
-                </Timeline>
+                  items={timelineList.map((t) => ({
+                    color: t.color,
+                    children: (
+                      <>
+                        <Title level={5}>{t.title}</Title>
+                        <Text>{t.time}</Text>
+                      </>
+                    ),
+                  }))}
+                />
                 <Button
                   type="primary"
                   className="width-100"
