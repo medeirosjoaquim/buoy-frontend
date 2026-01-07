@@ -46,6 +46,7 @@ export function BrandProfile() {
               <Row justify="space-around" gutter={[0, 20]}>
                 <Anchor
                   direction="horizontal"
+                  targetOffset={window.innerHeight / 2}
                   items={[
                     {
                       key: "basicInfo",
@@ -287,7 +288,7 @@ export function BrandProfile() {
                     </Form.Item>
                   </Card>
                 </Col>
-                <Col span={14} style={{ paddingBottom: 24 }}>
+                <Col span={14} style={{ paddingTop: 24, paddingBottom: 100 }}>
                   <Row justify="center">
                     <Button htmlType="submit" type="primary" size="large">
                       {formatMessage({
