@@ -4,7 +4,7 @@ import { UserProfileService } from "./interface";
 
 let service: UserProfileService = new UserProfileApiService();
 
-if (process.env.REACT_APP_FAKE_API_MODE === "true") {
+if (import.meta.env.VITE_FAKE_API_MODE === "true") {
   service = new UserProfileFakeService(1000, 0);
 }
 

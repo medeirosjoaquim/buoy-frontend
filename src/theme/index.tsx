@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ConfigProvider } from "antd";
-import * as theme from "antdTheme.json";
+import theme from "../antdTheme.json";
 import type { ThemeConfig } from "antd";
 
 interface ThemeProviderProps {

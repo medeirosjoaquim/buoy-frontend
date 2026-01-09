@@ -4,7 +4,7 @@ import { ApiService } from "./apiService";
 const loginService = new LoginApiService();
 
 export class AuthedService extends ApiService {
-  static apiUrl: string = `${process.env.REACT_APP_API_URL}`;
+  static apiUrl: string = `${import.meta.env.VITE_API_URL}`;
 
   public async injectJWTIntoHeader(header: Record<string, string> = {}) {
     try {
