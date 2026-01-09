@@ -27,4 +27,22 @@ export class UsersFakeService implements UsersService {
       }, this.latencyDuration);
     });
   }
+
+  async getById(id: number): Promise<UsersResponse> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const user = fakeUsers.find((u) => u.id === id);
+        if (!user) {
+          reject(new Error(`User with id ${id} not found`));
+          return;
+        }
+        resolve({
+          users: [user],
+          total: 1,
+          skip: 0,
+          limit: 1,
+        });
+      }, this.latencyDuration);
+    });
+  }
 }

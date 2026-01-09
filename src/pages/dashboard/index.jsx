@@ -368,7 +368,7 @@ function Dashboard() {
               xl={6}
               className="mb-24"
             >
-              <Card bordered={false} className="criclebox ">
+              <Card variant="borderless" className="criclebox ">
                 <div className="number">
                   <Row align="middle" gutter={[24, 12]}>
                     <Col xs={18}>
@@ -386,17 +386,17 @@ function Dashboard() {
             </Col>
           ))}
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
+            <Card variant="borderless" className="criclebox h-full">
               <Echart />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
+            <Card variant="borderless" className="criclebox h-full">
               <LineChart />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={16} className="mb-24">
-            <Card bordered={false} className="criclebox cardbody h-full">
+            <Card variant="borderless" className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
                   <Title level={5}>Projects</Title>
@@ -465,7 +465,7 @@ function Dashboard() {
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={8} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
+            <Card variant="borderless" className="criclebox h-full">
               <div className="timeline-box">
                 <Title level={5}>Orders History</Title>
                 <Paragraph className="lastweek" style={{ marginBottom: 24 }}>
@@ -500,7 +500,7 @@ function Dashboard() {
 
         <Row gutter={[24, 12]}>
           <Col xs={24} md={12} sm={24} lg={12} xl={14} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
+            <Card variant="borderless" className="criclebox h-full">
               <Row gutter>
                 <Col
                   xs={24}
@@ -544,7 +544,7 @@ function Dashboard() {
           </Col>
 
           <Col xs={24} md={12} sm={24} lg={12} xl={10} className="mb-24">
-            <Card bordered={false} className="criclebox card-info-2 h-full">
+            <Card variant="borderless" className="criclebox card-info-2 h-full">
               <div className="gradent h-full col-content">
                 <div className="card-content">
                   <Title level={5}>Work with the best</Title>

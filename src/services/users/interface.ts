@@ -15,4 +15,5 @@ export interface UsersResponse {
 
 export abstract class UsersService {
   abstract getAll(): Promise<UsersResponse>;
+  abstract getById(id: number): Promise<UsersResponse>;
 }

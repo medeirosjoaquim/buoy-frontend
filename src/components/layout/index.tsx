@@ -11,6 +11,7 @@ export enum AppPath {
   brandProfile = "/brandProfile",
   userProfile = "/profile",
   users = "/users",
+  userDetail = "/users/:id",
   crud = "/",
 }
 

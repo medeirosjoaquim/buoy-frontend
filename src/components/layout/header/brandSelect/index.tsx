@@ -65,7 +65,7 @@ export const BrandSelect = () => {
   return (
     <>
       {!selectableBrands && (
-        <Card bordered={false} size="small" style={{ padding: 0 }}>
+        <Card variant="borderless" size="small" style={{ padding: 0 }}>
           <Row align="middle" gutter={10}>
             <Col>
               <Avatar
@@ -82,7 +82,7 @@ export const BrandSelect = () => {
 
       {selectableBrands && (
         <Card
-          bordered={false}
+          variant="borderless"
           hoverable
           size="small"
           style={{ padding: 0, cursor: "pointer" }}

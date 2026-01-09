@@ -28,7 +28,7 @@ export const BrandItem = ({ name, avatar, logo, onClick }: BrandItemProps) => {
       onClick={onClick}
     >
       <Card
-        bordered={false}
+        variant="borderless"
         style={{
           boxShadow: "none",
           backgroundColor: isHover ? colorPrimaryBgHover : "unset",

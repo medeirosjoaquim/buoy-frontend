@@ -13,4 +13,20 @@ export class UsersApiService extends UsersService {
 
     return response.json();
   }
+  async getById(id: number): Promise<UsersResponse> {
+    // Fetch user by ID
+    const response = await fetch(`${DUMMYJSON_URL}/users/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user with id ${id}`);
+    }
+
+    const user = await response.json();
+    return {
+      users: [user],
+      total: 1,
+      skip: 0,
+      limit: 1,
+    };
+  }
 }

@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Table, Avatar, Input, Space, Card } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
@@ -14,6 +15,7 @@ export function Users() {
   const { data, isLoading } = useGetUsers();
   const [searchText, setSearchText] = useState<Record<string, string>>({});
   const searchInput = useRef<InputRef>(null);
+  const navigate = useNavigate();
 
   const handleSearch = (
     selectedKeys: string[],
@@ -152,6 +154,10 @@ export function Users() {
             pageSize: 13,
             showSizeChanger: false,
           }}
+          onRow={(record) => ({
+            onClick: () => navigate(`/users/${record.id}`),
+            style: { cursor: "pointer" },
+          })}
         />
       </Card>
     </ContentLayout>

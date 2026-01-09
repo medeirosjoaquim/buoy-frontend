@@ -25,9 +25,9 @@ const { update } = intlConfigSlice.actions;
 
 export const updateIntlConfig =
   (intlConfigData: IntlData): AppThunk =>
-  (dispatch) => {
-    dispatch(update(intlConfigData));
-  };
+    (dispatch) => {
+      dispatch(update(intlConfigData));
+    };
 
 export const getIntlConfig = (state: RootState) => state.intlConfig;
 

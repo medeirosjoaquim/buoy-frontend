@@ -14,6 +14,9 @@ const UserProfile = lazy(() =>
 const Users = lazy(() =>
   import("./users").then((m) => ({ default: m.Users }))
 );
+const UserDetail = lazy(() =>
+  import("./userDetail").then((m) => ({ default: m.UserDetail }))
+);
 
 function PageLoader() {
   return (
@@ -31,6 +34,7 @@ export default function PagesRoutes() {
         <Route path={AppPath.home} element={<Dashboard />} />
         <Route path={AppPath.brandProfile} element={<BrandProfile />} />
         <Route path={AppPath.userProfile} element={<UserProfile />} />
+        <Route path={AppPath.userDetail} element={<UserDetail />} />
         <Route path={AppPath.users} element={<Users />} />
       </Routes>
     </Suspense>
